@@ -40,15 +40,16 @@ jobs:
         run: |
           cat <<EOF > Dockerfile
           FROM golang:1.20-alpine AS builder
-          WORKDIR /app
+          WORKDIR /cfst
           COPY . .
           RUN go build -o cfst main.go
 
           FROM alpine:latest
-          WORKDIR /app
-          # 核心修复：把程序和依赖的 IP 数据库文件一起复制过来
-          COPY --from=builder /app/cfst .
-          COPY --from=builder /app/ip.txt .
+          WORKDIR /cfst
+          # 👈 这里全部改成了 /cfst 路径
+          COPY --from=builder /cfst/cfst .
+          COPY --from=builder /cfst/ip.txt .
+          COPY --from=builder /cfst/ipv6.txt .
           ENTRYPOINT ["./cfst"]
           EOF
 
