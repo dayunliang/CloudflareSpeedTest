@@ -46,7 +46,9 @@ jobs:
 
           FROM alpine:latest
           WORKDIR /app
+          # 核心修复：把程序和依赖的 IP 数据库文件一起复制过来
           COPY --from=builder /app/cfst .
+          COPY --from=builder /app/ip.txt .
           ENTRYPOINT ["./cfst"]
           EOF
 
