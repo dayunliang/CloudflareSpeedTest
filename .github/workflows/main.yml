@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/cfst
+  IMAGE_NAME: ${{ github.repository_owner }}/cfst
 
 jobs:
   build-and-push:
