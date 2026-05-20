@@ -11,7 +11,7 @@ env:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -29,7 +29,7 @@ jobs:
 
       - name: Extract metadata
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6  # 👈 已从 v5 升级至 v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
@@ -46,7 +46,6 @@ jobs:
 
           FROM alpine:latest
           WORKDIR /cfst
-          # 👈 这里全部改成了 /cfst 路径
           COPY --from=builder /cfst/cfst .
           COPY --from=builder /cfst/ip.txt .
           COPY --from=builder /cfst/ipv6.txt .
@@ -54,7 +53,7 @@ jobs:
           EOF
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6  # 👈 已从 v5 升级至 v6
         with:
           context: .
           push: true
